@@ -6,27 +6,39 @@ logger = logging.getLogger('reader')
 
 
 class Card(object):
-    def __init__(self, cid=None, content=None):
+    def __init__(self, cid=None, block=0, content=None):
         self.cid = cid
+        self.block = block
         self.content = content
 
     def __str__(self):
-        return '(%r, %r)' % (self.cid, self.content)
+        return '(%r@%r, %r)' % (self.cid, self.block, self.content)
 
     def __repr__(self):
-        return 'Card(%r, %r)' % (self.cid, self.content)
+        return 'Card(%r, %r, %r)' % (self.cid, self.block, self.content)
 
 
 def read_card(block=56, sector=None, key=None):
     if key is None:
         key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+
+    if isinstance(key, str):
+        try:
+            key = []
+            for i in range(0, 12, 2):
+                origin = key
+                # split key into aa, bb, cc, ... format
+                key.append(int(origin[i: i+2], 16))
+        except:
+            raise Exception('Key format error')
+
     # If sector is set, ignore block
     if sector is not None:
         block = sector * 4  # 4 blocks per sector
         sector = None
 
     with MFRC522.MFRC522Reader() as reader:
-        card = Card()
+        card = Card(block=block)
 
         # Scan for cards
         (status, TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
