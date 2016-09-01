@@ -1,0 +1,32 @@
+import os
+# load config file
+
+try:
+    settings_file = open('settings/settings.json')
+    config =  json.load(settings_file)
+except FileNotFoundError:
+    print('configuration file not found')
+    sys.exit(1)
+except json.JSONDecodeError:
+    print('configuration file error')
+    sys.exit(1)
+
+KEYS = {}
+try:
+    for kp in config['keys']:
+        keys[kp['block']] = kp['key']
+except KeyError:
+    pass
+
+FUNCTION_BLOCK = config['function_block']
+
+STUDENT_BLOCK = config['student_block']
+
+LATENCY = 1 / config.get('fequency', 2)
+
+VOTE_TOKEN = config.get('token', '')
+
+def RUN(content):
+    for cmd in config['commands']:
+        if cmd['name'] == content:
+            os.system(cmd['command'])
