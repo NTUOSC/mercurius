@@ -24,13 +24,14 @@ def read_card(block=56, sector=None, key=None):
 
     if isinstance(key, str):
         try:
-            key = []
+            new_key = []
             for i in range(0, 12, 2):
-                origin = key
+                logging.info(key)
                 # split key into aa, bb, cc, ... format
-                key.append(int(origin[i: i+2], 16))
-        except:
-            raise Exception('Key format error')
+                new_key.append(int(key[i: i+2], 16))
+            key = new_key
+        except Exception as e:
+            raise Exception('[Key format error] %s' % e)
 
     # If sector is set, ignore block
     if sector is not None:
