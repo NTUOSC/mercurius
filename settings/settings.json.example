@@ -1,0 +1,24 @@
+{
+    "keys": [
+        {
+            "block": 56,
+            "key": "EEEEEEEEEEEE"
+        },
+        {
+            "block": 60,
+            "key": "FFFFFFFFFFFF"
+        }
+    ],
+    "function_block": 60,
+    "student_block": 56,
+    "fequency": 2,
+    "commands": [
+        { 
+            "name": "reboot",
+            "command": "sudo reboot"
+        }
+    ],
+    "logging_path": "/var/log/mercurius.log",
+    "token_name": "token",
+    "token": "<TOKEN>"
+}

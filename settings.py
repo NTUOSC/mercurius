@@ -1,4 +1,5 @@
 import os
+import logging
 # load config file
 
 try:
@@ -24,9 +25,15 @@ STUDENT_BLOCK = config['student_block']
 
 LATENCY = 1 / config.get('fequency', 2)
 
+VOTE_TOKEN_NAME = config.get('token_name', 'token')
+
 VOTE_TOKEN = config.get('token', '')
 
 def RUN(content):
     for cmd in config['commands']:
         if cmd['name'] == content:
             os.system(cmd['command'])
+
+LOGGING_PATH = config.get('logging_path', '/var/log/mercurius.log')
+
+logging.basicConfig(filename=LOGGING_PATH, level=logging.DEBUG)
