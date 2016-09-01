@@ -37,3 +37,5 @@ def RUN(content):
 LOGGING_PATH = config.get('logging_path', '/var/log/mercurius.log')
 
 logging.basicConfig(filename=LOGGING_PATH, level=logging.DEBUG)
+
+DEBUG = False
