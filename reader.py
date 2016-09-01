@@ -23,10 +23,10 @@ def read_card(block=56, sector=None, key=None):
         key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
     if isinstance(key, str):
+        logging.debug(key)
         try:
             new_key = []
             for i in range(0, 12, 2):
-                logging.debug(key)
                 # split key into aa, bb, cc, ... format
                 new_key.append(int(key[i: i+2], 16))
             key = new_key
