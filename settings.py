@@ -29,6 +29,8 @@ VOTE_TOKEN_NAME = config.get('token_name', 'token')
 
 VOTE_TOKEN = config.get('token', '')
 
+VOTE_PATH = config.get('VOTE_PATH', 'http://httpbin.org/post')
+
 def RUN(content):
     for cmd in config['commands']:
         if cmd['name'] == content:
