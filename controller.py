@@ -7,7 +7,7 @@ import requests
 
 import settings
 
-# from reader import read_card
+from reader import read_card
 
 logger = logging.getLogger('controller')
 
