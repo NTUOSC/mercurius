@@ -26,7 +26,7 @@ def read_card(block=56, sector=None, key=None):
         try:
             new_key = []
             for i in range(0, 12, 2):
-                logging.info(key)
+                logging.debug(key)
                 # split key into aa, bb, cc, ... format
                 new_key.append(int(key[i: i+2], 16))
             key = new_key
