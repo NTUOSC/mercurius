@@ -20,6 +20,8 @@ try:
 except KeyError:
     pass
 
+DEBUG = False
+
 FUNCTION_BLOCK = config['function_block']
 
 STUDENT_BLOCK = config['student_block']
@@ -39,10 +41,11 @@ def RUN(content):
 
 LOGGING_PATH = config.get('logging_path', '/var/log/mercurius.log')
 
-logging.basicConfig(filename=LOGGING_PATH, level=logging.DEBUG,
+logging.basicConfig(filename=LOGGING_PATH, level=logging.INFO,
         format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
-DEBUG = False
+if DEBUG:
+    logging.basicConfig(level=logging.DEBUG)
 
 if FUNCTION_BLOCK not in KEYS:
     print('lack of function key')
