@@ -16,7 +16,7 @@ except json.JSONDecodeError:
 KEYS = {}
 try:
     for kp in config['keys']:
-        keys[kp['block']] = kp['key']
+        KEYS[kp['block']] = kp['key']
 except KeyError:
     pass
 
