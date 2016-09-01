@@ -43,3 +43,10 @@ logging.basicConfig(filename=LOGGING_PATH, level=logging.DEBUG,
         format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
 DEBUG = False
+
+if FUNCTION_BLOCK not in KEYS:
+    print('lack of function key')
+    sys.exit(1)
+if STUDENT_BLOCK not in KEYS:
+    print('lack of student key')
+    sys.exit(1)
