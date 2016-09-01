@@ -22,8 +22,9 @@ while True:
     except Exception as e:
         logging.error(e)
     else:
-        logging.info('get command "%s"' % card.content)
-        settings.RUN(card.content)
+        if card is not None:
+            logging.info('get command "%s"' % card.content)
+            settings.RUN(card.content)
 
     # student card
     try:
@@ -34,14 +35,15 @@ while True:
     except Exception as e:
         logging.error(e)
     else:
-        logging.info("get student card (%s)" % card.content)
-        res = requests.post(settings.VOTE_PATH, data={
-            'student_id': card.content,
-            'card_id': card.cid,
-            settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
-        })
-        if res.status_code != 200:
-            logging.warn(res.text)
+        if card is not None:
+            logging.info("get student card (%s)" % card.content)
+            res = requests.post(settings.VOTE_PATH, data={
+                'student_id': card.content,
+                'card_id': card.cid,
+                settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
+            })
+            if res.status_code != 200:
+                logging.warn(res.text)
 
     # fequency of scanning
     sleep(settings.LATENCY)
