@@ -35,7 +35,7 @@ while True:
         logging.error(e)
     else:
         logging.info("get student card (%s)" % card.content)
-        res = requests.post(settings.PATH, data={
+        res = requests.post(settings.VOTE_PATH, data={
             'student_id': card.content,
             'card_id': card.cid,
             settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
