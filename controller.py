@@ -6,6 +6,7 @@ from time import sleep
 import requests
 
 import settings
+from MFRC522.MFRC522 import AuthError
 
 from reader import read_card
 
@@ -17,7 +18,7 @@ while True:
     try:
         fb = settings.FUNCTION_BLOCK
         card = read_card(block=fb, key=settings.KEYS[fb])
-    except KeyError:
+    except AuthError:
         pass
     except Exception as e:
         logging.error(e)
@@ -30,7 +31,7 @@ while True:
     try:
         sb = settings.STUDENT_BLOCK
         card = read_card(block=sb, key=settings.KEYS[sb])
-    except KeyError:
+    except AuthError:
         pass
     except Exception as e:
         logging.error(e)
