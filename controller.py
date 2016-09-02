@@ -12,6 +12,7 @@ from reader import read_card
 
 logger = logging.getLogger('controller')
 
+logger.info('start to waiting for cards')
 while True:
     # checking content
     # function card
