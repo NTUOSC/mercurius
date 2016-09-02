@@ -40,6 +40,7 @@ VOTE_PATH = config.get('VOTE_PATH', 'http://httpbin.org/post')
 def RUN(content):
     for cmd in config['commands']:
         if cmd['name'] == content:
+            logging.info('execute %s' % cmd['command'])
             os.system(cmd['command'])
 
 LOGGING_PATH = config.get('logging_path', '/var/log/mercurius.log')
