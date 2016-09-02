@@ -9,9 +9,11 @@ try:
     config =  json.load(settings_file)
 except FileNotFoundError:
     print('configuration file not found')
+    logging.critical('lost configuration file')
     sys.exit(1)
 except json.JSONDecodeError:
     print('configuration file error')
+    logging.critical('configuration file parse error')
     sys.exit(1)
 
 KEYS = {}
@@ -50,7 +52,9 @@ if DEBUG:
 
 if FUNCTION_BLOCK not in KEYS:
     print('lack of function key')
+    logging.critical('lack of function key')
     sys.exit(1)
 if STUDENT_BLOCK not in KEYS:
     print('lack of student key')
+    logging.critical('lack of student key')
     sys.exit(1)
