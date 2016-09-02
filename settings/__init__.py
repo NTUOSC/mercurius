@@ -4,8 +4,12 @@ import json
 import logging
 # load config file
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SETTINGS_FILE = 'settings/settings.json'
+SETTINGS_PATH = os.path.join(BASE_DIR, SETTINGS_FILE)
+
 try:
-    settings_file = open('settings/settings.json')
+    settings_file = open(SETTINGS_PATH)
     config =  json.load(settings_file)
 except FileNotFoundError:
     print('configuration file not found')
