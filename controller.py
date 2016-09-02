@@ -39,13 +39,17 @@ while True:
     else:
         if card is not None:
             logging.info("get student card (%s)" % card.content)
-            res = requests.post(settings.VOTE_PATH, data={
-                'student_id': card.content,
-                'card_id': card.cid,
-                settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
-            })
-            if res.status_code != 200:
-                logging.warn(res.text)
+            try:
+                res = requests.post(settings.VOTE_PATH, data={
+                    'student_id': card.content,
+                    'card_id': card.cid,
+                    settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
+                })
+            except Exception as e:
+                logger.error('[Network Error] %s' % e)
+            else:
+                if res.status_code != 200:
+                    logging.warn(res.text)
 
     # fequency of scanning
     sleep(settings.LATENCY)
