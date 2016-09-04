@@ -38,7 +38,7 @@ while True:
         logging.error(e)
     else:
         if card is not None:
-            logging.info("get student card (%s)" % card.content)
+            logging.info("get student card (%s)" % card.content[0:9])
             try:
                 res = requests.post(settings.VOTE_PATH, data={
                     'student_id': card.content,
