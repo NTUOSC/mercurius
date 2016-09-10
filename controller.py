@@ -10,9 +10,7 @@ from MFRC522.MFRC522 import AuthError
 
 from reader import read_card
 
-logger = logging.getLogger('controller')
-
-logger.info('start to waiting for cards')
+logging.info('start to waiting for cards')
 while True:
     # checking content
     # function card
@@ -46,7 +44,7 @@ while True:
                     settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
                 })
             except Exception as e:
-                logger.error('[Network Error] %s' % e)
+                logging.error('[Network Error] %s' % e)
             else:
                 if res.status_code != 200:
                     logging.warn(res.text)
