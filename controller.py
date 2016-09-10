@@ -43,6 +43,7 @@ while True:
                     'card_id': card.cid,
                     settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
                 })
+                logging.debug(res)
             except Exception as e:
                 logging.error('[Network Error] %s' % e)
             else:
