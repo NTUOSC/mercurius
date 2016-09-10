@@ -47,13 +47,15 @@ def RUN(content):
             logging.info('execute %s' % cmd['command'])
             os.system(cmd['command'])
 
-LOGGING_PATH = config.get('logging_path', '/var/log/mercurius.log')
-
-logging.basicConfig(filename=LOGGING_PATH, level=logging.INFO,
-        format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
 if DEBUG:
-    logging.basicConfig(level=logging.DEBUG)
+    LOGGING_PATH = os.path.join(BASE_DIR, 'mercurius.log')
+    logging.basicConfig(filename=LOGGING_PATH, level=logging.DEBUG,
+            format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
+else:
+    LOGGING_PATH = config.get('logging_path', '/var/log/mercurius.log')
+    logging.basicConfig(filename=LOGGING_PATH, level=logging.INFO,
+            format='%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
 if FUNCTION_BLOCK not in KEYS:
     print('lack of function key')
