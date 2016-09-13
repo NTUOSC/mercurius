@@ -26,6 +26,17 @@ while True:
             logging.info('get command "%s"' % card.content)
             settings.RUN(card.content)
 
+    # staff card
+    try:
+        sb = settings.STAFF_BLOCK
+        card = read_card(block=sb, key=settings.KEYS[sb])
+    except AuthError:
+        pass
+    except Exception as e:
+        logging.error(e)
+    else:
+        pass
+
     # student card
     try:
         sb = settings.STUDENT_BLOCK
