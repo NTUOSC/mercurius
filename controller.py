@@ -2,6 +2,7 @@ import sys
 import json
 import logging
 from time import sleep
+from threading import Thread
 
 import requests
 
@@ -10,56 +11,82 @@ from MFRC522.MFRC522 import AuthError
 
 from reader import read_card
 
-logging.info('start to waiting for cards')
-while True:
-    # checking content
-    # function card
-    try:
-        fb = settings.FUNCTION_BLOCK
-        card = read_card(block=fb, key=settings.KEYS[fb])
-    except AuthError:
-        pass
-    except Exception as e:
-        logging.error(e)
-    else:
-        if card is not None:
-            logging.info('get command "%s"' % card.content)
-            settings.RUN(card.content)
+def heart_beat():
+    if not hasattr(settings, 'HEART_BEAT_PATH'):
+        return
 
-    # staff card
-    try:
-        sb = settings.STAFF_BLOCK
-        card = read_card(block=sb, key=settings.KEYS[sb])
-    except AuthError:
-        pass
-    except Exception as e:
-        logging.error(e)
-    else:
-        pass
+    while True:
+        try:
+            res = requests.head(settings.HEART_BEAT_PATH)
+            logging.debug(res)
+        except Exception as e:
+            logging.error('[Network Error] %s' % e)
+        finally:
+            sleep(2)
 
-    # student card
-    try:
-        sb = settings.STUDENT_BLOCK
-        card = read_card(block=sb, key=settings.KEYS[sb])
-    except AuthError:
-        pass
-    except Exception as e:
-        logging.error(e)
-    else:
-        if card is not None:
-            logging.info("get student card (%s)" % card.content[0:9])
-            try:
-                res = requests.post(settings.VOTE_PATH, data={
-                    'student_id': card.content,
-                    'card_id': card.cid,
-                    settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
-                })
-                logging.debug(res)
-            except Exception as e:
-                logging.error('[Network Error] %s' % e)
-            else:
-                if res.status_code != 200:
-                    logging.warn(res.text)
+def reader():
+    logging.info('start to waiting for cards')
+    while True:
+        # checking content
+        # function card
+        try:
+            fb = settings.FUNCTION_BLOCK
+            card = read_card(block=fb, key=settings.KEYS[fb])
+        except AuthError:
+            pass
+        except Exception as e:
+            logging.error(e)
+        else:
+            if card is not None:
+                logging.info('get command "%s"' % card.content)
+                settings.RUN(card.content)
 
-    # fequency of scanning
-    sleep(settings.LATENCY)
+        # staff card
+        try:
+            sb = settings.STAFF_BLOCK
+            card = read_card(block=sb, key=settings.KEYS[sb])
+        except AuthError:
+            pass
+        except Exception as e:
+            logging.error(e)
+        else:
+            if card is not None:
+                logging.info("get staff card (%s)" % card.cid)
+
+        # student card
+        try:
+            sb = settings.STUDENT_BLOCK
+            card = read_card(block=sb, key=settings.KEYS[sb])
+        except AuthError:
+            pass
+        except Exception as e:
+            logging.error(e)
+        else:
+            if card is not None:
+                logging.info("get student card (%s)" % card.content[0:9])
+                try:
+                    res = requests.post(settings.VOTE_PATH, data={
+                        'student_id': card.content,
+                        'card_id': card.cid,
+                        settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
+                        })
+                    logging.debug(res)
+                except Exception as e:
+                    logging.error('[Network Error] %s' % e)
+                else:
+                    if res.status_code != 200:
+                        logging.warn(res.text)
+
+        # fequency of scanning
+        sleep(settings.LATENCY)
+
+if __name__ == '__main__':
+    heart_beat_thread = Thread(target=heart_beat, daemon=True)
+    heart_beat_thread.start()
+
+    reader_thread = Thread(target=reader, daemon=True)
+    reader_thread.start()
+    try:
+        heart_beat_thread.join()
+    except (KeyboardInterrupt, SystemExit):
+        sys.exit()
