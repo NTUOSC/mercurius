@@ -17,7 +17,7 @@ def heart_beat():
 
     while True:
         try:
-            res = requests.head(settings.HEART_BEAT_PATH)
+            res = requests.head(settings.HEART_BEAT_PATH, timeout=1)
             logging.debug(res)
         except Exception as e:
             logging.error('[Network Error] %s' % e)
@@ -66,7 +66,7 @@ def reader():
                 logging.info("get student card (%s)" % card.content[0:9])
                 try:
                     res = requests.post(settings.VOTE_PATH, data={
-                        'student_id': card.content,
+                        'student_id': card.content[0:10],
                         'card_id': card.cid,
                         settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
                         })
