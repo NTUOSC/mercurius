@@ -30,8 +30,8 @@ except KeyError:
 DEBUG = False
 
 FUNCTION_BLOCK = config['function_block']
-
 STUDENT_BLOCK = config['student_block']
+STAFF_BLOCK = config['staff_block']
 
 LATENCY = 1 / config.get('fequency', 2)
 
