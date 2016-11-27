@@ -39,9 +39,9 @@ VOTE_TOKEN_NAME = config.get('token_name', 'token')
 
 VOTE_TOKEN = config.get('token', '')
 
-VOTE_PATH = config.get('VOTE_PATH', 'http://httpbin.org/post')
+VOTE_PATH = config.get('vote_path', 'http://httpbin.org/post')
 
-HEART_BEAT_PATH = config.get('HEART_BEAT_PATH', 'http://httpbin.org/head')
+HEART_BEAT_PATH = config.get('heart_beat_path', 'http://httpbin.org/head')
 
 def RUN(content):
     for cmd in config['commands']:
