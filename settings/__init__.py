@@ -43,6 +43,8 @@ VOTE_PATH = config.get('vote_path', 'http://httpbin.org/post')
 
 HEART_BEAT_PATH = config.get('heart_beat_path', 'http://httpbin.org/head')
 
+STAFF_PATH = config.get('staff_path', 'http://localhost/api/login')
+
 def RUN(content):
     for cmd in config['commands']:
         if cmd['name'] == content:

@@ -22,7 +22,7 @@ def heart_beat():
         except Exception as e:
             logging.error('[Network Error] %s' % e)
         finally:
-            sleep(2)
+            sleep(10)
 
 def reader():
     logging.info('start to waiting for cards')
@@ -52,6 +52,25 @@ def reader():
         else:
             if card is not None:
                 logging.info("get staff card (%s)" % card.cid)
+                try:
+                    username = content.split(':')[0]
+                    password = content.split(':')[1]
+                except:
+                    logging.error('Wrong format of staff card')
+                    continue
+
+                try:
+                    res = requests.post(settings.STAFF_PATH, data={
+                        'student_id': card.content[0:10],
+                        'card_id': card.cid,
+                        settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
+                        })
+                    logging.debug(res)
+                except Exception as e:
+                    logging.error('[Network Error] %s' % e)
+                else:
+                    if res.status_code != 200:
+                        logging.warn(res.text)
 
         # student card
         try:
