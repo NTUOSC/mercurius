@@ -40,6 +40,7 @@ def reader():
             if card is not None:
                 logging.info('get command "%s"' % card.content)
                 settings.RUN(card.content)
+            sleep(2)
 
         # staff card
         try:
@@ -53,17 +54,17 @@ def reader():
             if card is not None:
                 logging.info("get staff card (%s)" % card.cid)
                 try:
-                    username = content.split(':')[0]
-                    password = content.split(':')[1]
+                    logging.info("get staff card (%s)" % card.content)
+                    username = card.content.split(':')[0]
+                    password = card.content.split(':')[1]
                 except:
                     logging.error('Wrong format of staff card')
                     continue
 
                 try:
                     res = requests.post(settings.STAFF_PATH, data={
-                        'student_id': card.content[0:10],
-                        'card_id': card.cid,
-                        settings.VOTE_TOKEN_NAME: settings.VOTE_TOKEN
+                        'username': username,
+                        'password': password,
                         })
                     logging.debug(res)
                 except Exception as e:
@@ -71,6 +72,7 @@ def reader():
                 else:
                     if res.status_code != 200:
                         logging.warn(res.text)
+                sleep(2)
 
         # student card
         try:
