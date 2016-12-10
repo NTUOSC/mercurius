@@ -42,7 +42,6 @@ def reader():
             if card is not None:
                 logging.info('get command "%s"' % card.content)
                 settings.RUN(card.content)
-            sleep(2)
 
         # staff card
         try:
@@ -74,7 +73,6 @@ def reader():
                 else:
                     if res.status_code != 200:
                         logging.warn(res.text)
-                sleep(2)
 
         # student card
         try:
