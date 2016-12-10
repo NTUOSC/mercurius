@@ -41,7 +41,7 @@ VOTE_TOKEN = config.get('token', '')
 
 VOTE_PATH = config.get('vote_path', 'http://httpbin.org/post')
 
-HEART_BEAT_PATH = config.get('heart_beat_path', 'http://httpbin.org/head')
+HEART_BEAT_PATH = config.get('heart_beat_path', None)
 
 STAFF_PATH = config.get('staff_path', 'http://localhost/api/login')
 
