@@ -15,7 +15,8 @@ def heart_beat():
     if not hasattr(settings, 'HEART_BEAT_PATH'):
         return
     if settings.HEART_BEAT_PATH is None:
-        return
+        while True:
+            sleep(10)
 
     while True:
         try:
