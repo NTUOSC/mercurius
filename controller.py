@@ -74,6 +74,8 @@ def reader():
                 else:
                     if res.status_code != 200:
                         logging.warn(res.text)
+                    sleep(3)  # sleep 3 seconds after reading sucess
+
 
         # student card
         try:
@@ -98,6 +100,7 @@ def reader():
                 else:
                     if res.status_code != 200:
                         logging.warn(res.text)
+                    sleep(3)  # sleep 3 seconds after reading sucess
 
         # fequency of scanning
         sleep(settings.LATENCY)
